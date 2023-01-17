@@ -1,0 +1,13 @@
+select id, visit_date, people from (
+select id,
+COALESCE(LEAD(id) OVER (ORDER BY visit_date), id+1) AS lead_id,
+COALESCE(LEAD(people) OVER (ORDER BY visit_date),100) AS lead_people,
+COALESCE(LEAD(id, 2) OVER (ORDER BY visit_date), id+2) AS lead_id_2,
+COALESCE(LEAD(people, 2) OVER (ORDER BY visit_date), 100) AS lead_people_2,
+visit_date, people
+from Stadium) sub
+where people >= 100
+and lead_id = id + 1
+and lead_people >= 100
+and lead_id_2 = id + 2
+and lead_people_2 >= 100;
