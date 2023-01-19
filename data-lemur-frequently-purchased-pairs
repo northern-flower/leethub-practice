@@ -1,0 +1,6 @@
+WITH t1 as (SELECT product_id, transaction_date FROM transactions), 
+t2 as (SELECT product_id, transaction_date FROM transactions)
+select distinct t1.product_id, t2.product_id
+from t1, t2
+where t1.transaction_date = t2.transaction_date
+and t1.product_id < t2.product_id;
